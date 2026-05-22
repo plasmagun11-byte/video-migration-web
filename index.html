@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📹 Video Migration Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="theme-color" content="#1e3c72">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📹 Video Migration Tool</h1>
+            <p class="subtitle">Transfer video dengan mudah</p>
+        </header>
+
+        <main class="main-content">
+            <!-- LICENSE ACTIVATION SECTION -->
+            <section id="licenseSection" class="section active">
+                <div class="card">
+                    <h2>🔐 License Activation</h2>
+                    
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="activate">Activate License</button>
+                        {% if is_admin %}
+                        <button class="tab-btn" data-tab="generate">Generate Key (Admin)</button>
+                        {% endif %}
+                    </div>
+
+                    <!-- ACTIVATE TAB -->
+                    <div id="activateTab" class="tab-content active">
+                        <div class="form-group">
+                            <label for="licenseKey">License Key:</label>
+                            <input 
+                                type="password" 
+                                id="licenseKey" 
+                                class="input-field" 
+                                placeholder="ABC123DEF456"
+                                autocomplete="off">
+                            <small>Dapatkan dari admin via WhatsApp</small>
+                        </div>
+
+                        <button id="activateBtn" class="btn btn-primary">
+                            ✅ Activate License
+                        </button>
+
+                        <div id="activateMsg" class="message"></div>
+                    </div>
+
+                    <!-- GENERATE TAB -->
+                    {% if is_admin %}
+                    <div id="generateTab" class="tab-content">
+                        <div class="form-group">
+                            <label for="daysValid">Valid for (days):</label>
+                            <select id="daysValid" class="input-field">
+                                <option value="7">7 days</option>
+                                <option value="14">14 days</option>
+                                <option value="30" selected>30 days</option>
+                                <option value="90">90 days</option>
+                                <option value="180">6 months</option>
+                                <option value="365">1 year</option>
+                            </select>
+                        </div>
+
+                        <button id="generateBtn" class="btn btn-success">
+                            🔑 Generate License Key
+                        </button>
+
+                        <div id="generateResult" class="message"></div>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <!-- APP SECTION -->
+            <section id="appSection" class="section">
+                <div class="card">
+                    <div class="license-info">
+                        <span>License: <strong id="licenseDisplay"></strong></span>
+                        <span id="expiryDisplay"></span>
+                        <button id="logoutBtn" class="btn btn-small">Logout</button>
+                    </div>
+
+                    <h2>🚀 Video Migration</h2>
+
+                    <div class="form-group">
+                        <label for="sourceId">📁 Source Folder ID (Google Drive):</label>
+                        <input 
+                            type="text" 
+                            id="sourceId" 
+                            class="input-field" 
+                            placeholder="1a2b3c4d5e6f7g8h9i0j..."
+                        >
+                        <small>Folder ID dari link: https://drive.google.com/drive/folders/<strong>FOLDER_ID</strong></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateFolder">📅 Date Folder Name:</label>
+                        <input 
+                            type="text" 
+                            id="dateFolder" 
+                            class="input-field" 
+                            placeholder="e.g. '17 Mar' atau '2025-05-21'"
+                        >
+                        <small>Format bebas (misal: '17 Mar', 'May 21', 'batch_1', dst)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="excelFile">📊 Upload Excel File:</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <input 
+                                type="file" 
+                                id="excelFile" 
+                                accept=".xlsx,.xls,.csv"
+                                style="display: none;"
+                            >
+                            <p>📌 Click untuk upload atau drag-drop file</p>
+                            <small>Format: Excel dengan 3 kolom (no, link folder tujuan, jumlah video)</small>
+                            <p id="fileNameDisplay" style="margin-top: 10px; color: #28a745; font-weight: bold;"></p>
+                        </div>
+                    </div>
+
+                    <button id="migrateBtn" class="btn btn-primary">
+                        🚀 Start Migration
+                    </button>
+
+                    <div id="migrateMsg" class="message"></div>
+
+                    <div id="progressSection" class="progress-section hidden">
+                        <div class="progress-info">
+                            <strong>⏳ Processing...</strong>
+                            <span id="progressCounter">0/0</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <div id="logOutput" class="log-output"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>© 2025 Video Migration Tool | Powered by Firebase & Google Drive</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"305641585f3841538508659aa3d2ee40","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

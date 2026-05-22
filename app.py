@@ -16,6 +16,13 @@ app = Flask(__name__)
 CORS(app)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
+# ===== MODE CONFIGURATION =====
+# Set MODE environment variable:
+# - MODE=admin (default) → Full features (generate + activate license)
+# - MODE=buyer → Limited features (only activate license)
+APP_MODE = os.getenv('MODE', 'admin').lower()
+IS_ADMIN_MODE = APP_MODE == 'admin'
+
 # ===== FIREBASE INITIALIZATION =====
 try:
     if not firebase_admin._apps:
@@ -178,7 +185,7 @@ def verify_license(license_key):
 @app.route('/')
 def index():
     """Serve main page"""
-    return render_template('index.html')
+    return render_template('index.html', is_admin=IS_ADMIN_MODE)
 
 @app.route('/api/generate-license', methods=['POST'])
 def api_generate_license():
